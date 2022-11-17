@@ -1,7 +1,19 @@
 import React from 'react'
 import styled from 'styled-components';
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {auth, storage, provider ,analytics} from "../../firebase"
 
 function header() {
+
+
+  const authhh = () => { signInWithPopup(auth, provider)
+    .then((result) => {
+          console.log(result)
+    }).catch((error) => {
+        console.log(error);
+    });
+  }
+
   return (
     <Nav>
         <Logo>
@@ -33,7 +45,7 @@ function header() {
           <span>SERIES</span>
           </a>    
         </NavMenu>
-        <Login>LOGIN</Login>
+        <Login onClick={authhh}>LOGIN</Login>
     </Nav>
     );
 };
@@ -142,7 +154,7 @@ const Login = styled.a`
 
  &:hover {
   background-color: #f9f9f9;
-  color: #000;
+  color: #000; 
  }
 `;
 
