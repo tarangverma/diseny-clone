@@ -2,16 +2,34 @@ import React from 'react'
 import styled from 'styled-components';
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import {auth, storage, provider ,analytics} from "../../firebase"
+import {useSelector , useDispatch} from "react-redux";
+import {useNavigate} from 'react-router-dom';
+import {selectUserPhoto , selectUserName , setUserLoginDetails} from "../../feature/users/userSlice"
 
-function header() {
 
+const Header = (props) =>   {
+
+  const dispatch = useDispatch();
+  const history = useNavigate();
+  const username = useSelector(selectUserName);
+  const userPhoto = useSelector(selectUserPhoto);
 
   const authhh = () => { signInWithPopup(auth, provider)
     .then((result) => {
-          console.log(result)
+          setUser(result.user)
     }).catch((error) => {
         console.log(error);
     });
+  };
+
+  const setUser = (user) => {
+      dispatch(
+        setUserLoginDetails({
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL
+        })
+      )
   }
 
   return (
@@ -158,4 +176,4 @@ const Login = styled.a`
  }
 `;
 
-export default header;
+export default Header;
